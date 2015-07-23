@@ -1,0 +1,51 @@
+import sys
+
+
+listOfArrays = []
+f = open('testing3.txt', 'r')
+fList = f.readlines()
+for line in fList:
+    listOfArrays.append(line)
+
+def checkForSquare(x, y, maxL, maxH, list):
+    localC = 0   
+    for mx in range (x + 1, maxL):
+        if list[y][mx] == ' ':
+            break
+        elif list[y][mx] == '+':
+            
+            for my in range (y + 1, maxH):
+                if len(list[my]) >= mx:
+                    if list[my][mx] == ' ':
+                        break
+                    elif list[my][mx] == '+':
+                        for mmx in range(mx - 1, x - 1, -1):
+                            if len(list[my]) >= mmx:
+                                if list[my][mmx] == ' ':
+                                    break
+                                elif list[my][mmx] == '+':
+                                    for mmy in range(my - 1, y - 1, -1):
+                                        if list[mmy][mmx] == ' ':
+                                            break
+                                        elif list[mmy][mmx] == '+':
+                                            if mmy == y and mmx == x:
+                                                localC = localC + 1
+    return localC
+
+
+
+def main():
+    counter = 0
+    for row in range(len(listOfArrays)):
+        thisList = listOfArrays[row]
+        for col in range(len(thisList)):
+            charC = thisList[col]
+            if charC == '+':
+                counter = counter + checkForSquare(col, row, len(thisList), len(listOfArrays), listOfArrays)
+                
+    print counter
+
+if __name__ == "__main__":
+    main()
+
+
